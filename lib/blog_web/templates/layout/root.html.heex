@@ -10,23 +10,37 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body class="bg-slate-50 m">
-    <header class="flex justify-center pt-24">
-      <section>
-        <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <div class="pb-3"></div>
-        <a href="https://phoenixframework.org/" class="min-w-300">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
+  <header class="flex justify-start h-32 bg-blue-500">
+    <div class="h-48 w-48">
+      <a href="https://phoenixframework.org/" class="bg-fill">
+        <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo"/>
+      </a>
+    </div>
+    <nav class="bg-red-300 w-full h-32 pl-48">
+      <section class="bg-green-400 w-full h-32">
+
       </section>
+    </nav>
+
+  </header>
+  <!--
+
+
+        <nav class=" w-full">
+
+          <section class="flex justify-start px-10">
+
+            <section class="flex justify-end w-1/2 h-36 bg-red-500">
+              <div class="w-56 flex justify-between">
+
+              </div>
+            </section>
+            <%= render "_user_menu.html", assigns %>
+          </section>
+        </nav>
+
     </header>
-    <div class="pb-2"></div>
+    -->
     <%= @inner_content %>
   </body>
 </html>
