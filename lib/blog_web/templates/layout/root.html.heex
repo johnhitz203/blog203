@@ -9,17 +9,24 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="bg-slate-50 m">
-  <header class="flex justify-start h-32 bg-blue-500">
-    <div class="h-48 w-48">
-      <a href="https://phoenixframework.org/" class="bg-fill">
+  <body class="bg-slate-50">
+  <header class="flex h-16 w-full">
+    <div class="flex h-24 w-24">
+      <!--a href="https://phoenixframework.org/" class="bg-cover bg-center"-->
+      <a href="#" class="bg-cover bg-center">
         <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo"/>
       </a>
     </div>
-    <nav class="bg-red-300 w-full h-32 pl-48">
-      <section class="bg-green-400 w-full h-32">
-
+    <nav class="flex w-full h-16 bg-indigo-800 pl-10">
+      <section class="flex justify-start w-1/2 h-16 text-2xl text-stone-200">
+        <span class="self-center">blog</span>
+        <span class="self-center mx-5">blog</span>
+        <span class="self-center">blog</span>
       </section>
+      <section class="flex justify-end w-1/2 h-16 pr-10">
+        <span class="self-center text-stone-200"><%= render "_user_menu.html", assigns %></span>
+      </section>
+
     </nav>
 
   </header>
@@ -35,7 +42,7 @@
 
               </div>
             </section>
-            <%= render "_user_menu.html", assigns %>
+
           </section>
         </nav>
 
