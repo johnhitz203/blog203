@@ -13,13 +13,14 @@
   <header class="flex h-16 w-full">
 
     <nav class="flex w-full h-16 bg-indigo-800 ">
-      <section class="flex justify-between w-1/4 h-16  text-3xl text-stone-200 ">
-        <a href="#" class="">
+      <section class="flex justify-between w-1/2 h-16  text-3xl text-stone-200 ">
+        <a href="/" class="">
           <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo" class="w-24 h-full " />
         </a>
         <span class="flex self-end">Blog</span>
         <span class="flex self-end">Recipe List</span>
         <span class="flex self-end">About</span>
+        <a href="/products" class="">Products</a>
       </section>
       <section class="flex justify-end w-3/4 h-24 pr-10">
         <span class="flex self-center text-stone-200"><%= render "_user_menu.html", assigns %></span>

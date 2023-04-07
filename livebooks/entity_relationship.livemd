@@ -1,0 +1,49 @@
+# Untitled notebook
+
+## Section
+
+```mermaid
+  erDiagram
+
+    User }|--o{ List :many_to_many
+    User {
+      string username
+      string email
+      string password_hash
+    }
+    List {
+      string list_name
+      ListItem[] list_items
+      integer quantity
+    }
+
+    List }|--|{ ListItem :"one to many"
+
+    ListItem {
+      id list_id
+      id product_id
+      int quantity
+    }
+
+    User }o--o{ Recipe :"one_to_many"
+
+    ListItem ||--|| Product :"one to one"
+
+    Product {
+      string product_name
+    }
+
+    Recipe {
+      string name
+      RecipeItem[] recipe_items
+    }
+
+    RecipeItem }|--|| Recipe :"one to many"
+    RecipeItem {
+      id product
+      int quantity
+    }
+
+     RecipeItem ||--|| Product :"one to one"
+
+```
