@@ -17,10 +17,10 @@
         <a href="/" class="">
           <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo" class="w-24 h-full " />
         </a>
-        <span class="flex self-end">Blog</span>
-        <span class="flex self-end">Recipe List</span>
+        <a href="#" class="flex self-end">Blog</a>
+        <a href="/recipes" class="flex self-end">Recipes</a>
+        <a href="/products" class="flex self-end">Products</a>
         <span class="flex self-end">About</span>
-        <a href="/products" class="">Products</a>
       </section>
       <section class="flex justify-end w-3/4 h-24 pr-10">
         <span class="flex self-center text-stone-200"><%= render "_user_menu.html", assigns %></span>
