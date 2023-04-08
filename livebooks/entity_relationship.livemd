@@ -11,13 +11,13 @@
       string email
       string password_hash
     }
-    List {
+    ShoppingList {
       string list_name
       ListItem[] list_items
       integer quantity
     }
 
-    List }|--|{ ListItem :"one to many"
+    ShoppingList }|--|{ ListItem :"one to many"
 
     ListItem {
       id list_id

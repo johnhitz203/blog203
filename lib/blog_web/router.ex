@@ -28,6 +28,7 @@ defmodule BlogWeb.Router do
     live "/products/:id/show/edit", ProductLive.Show, :edit
 
     get "/", PageController, :index
+    resources "/recipes", RecipeController
   end
 
   # Other scopes may use custom stacks.
