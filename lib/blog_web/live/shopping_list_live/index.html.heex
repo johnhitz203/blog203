@@ -1,0 +1,40 @@
+<h1>Listing Shopping lists</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.shopping_list_index_path(@socket, :index)}>
+    <.live_component
+      module={BlogWeb.ShoppingListLive.FormComponent}
+      id={@shopping_list.id || :new}
+      title={@page_title}
+      action={@live_action}
+      shopping_list={@shopping_list}
+      return_to={Routes.shopping_list_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="shopping_lists">
+    <%= for shopping_list <- @shopping_lists do %>
+      <tr id={"shopping_list-#{shopping_list.id}"}>
+        <td><%= shopping_list.name %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.shopping_list_show_path(@socket, :show, shopping_list) %></span>
+          <span><%= live_patch "Edit", to: Routes.shopping_list_index_path(@socket, :edit, shopping_list) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: shopping_list.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Shopping list", to: Routes.shopping_list_index_path(@socket, :new) %></span>
