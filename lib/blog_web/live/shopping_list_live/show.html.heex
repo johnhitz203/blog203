@@ -1,0 +1,26 @@
+<h1>Show Shopping list</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.shopping_list_show_path(@socket, :show, @shopping_list)}>
+    <.live_component
+      module={BlogWeb.ShoppingListLive.FormComponent}
+      id={@shopping_list.id}
+      title={@page_title}
+      action={@live_action}
+      shopping_list={@shopping_list}
+      return_to={Routes.shopping_list_show_path(@socket, :show, @shopping_list)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @shopping_list.name %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.shopping_list_show_path(@socket, :edit, @shopping_list), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.shopping_list_index_path(@socket, :index) %></span>

@@ -20,6 +20,13 @@ defmodule BlogWeb.Router do
   scope "/", BlogWeb do
     pipe_through :browser
 
+    live "/shopping_lists", ShoppingListLive.Index, :index
+    live "/shopping_lists/new", ShoppingListLive.Index, :new
+    live "/shopping_lists/:id/edit", ShoppingListLive.Index, :edit
+
+    live "/shopping_lists/:id", ShoppingListLive.Show, :show
+    live "/shopping_lists/:id/show/edit", ShoppingListLive.Show, :edit
+
     live "/products", ProductLive.Index, :index
     live "/products/new", ProductLive.Index, :new
     live "/products/:id/edit", ProductLive.Index, :edit

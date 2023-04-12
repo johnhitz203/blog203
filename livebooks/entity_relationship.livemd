@@ -1,4 +1,4 @@
-# Untitled notebook
+# Entity Relationship Diagram
 
 ## Section
 
@@ -12,9 +12,9 @@
       string password_hash
     }
     ShoppingList {
+      id id
       string list_name
       ListItem[] list_items
-      integer quantity
     }
 
     ShoppingList }|--|{ ListItem :"one to many"
