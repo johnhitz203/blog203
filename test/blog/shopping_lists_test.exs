@@ -90,10 +90,10 @@ defmodule Blog.ShoppingListsTest do
 
       assert {:ok, %ListItem{} = list_item} = ShoppingLists.add_list_item(valid_attrs)
       assert list_item.shopping_list_id == shopping_list.id
-      list_item = Repo.preload(list_item, :product)
-      assert list_item.product == product
+      list_item_w_product = Repo.preload(list_item, :product)
+      assert list_item_w_product.product == product
       shopping_list = ShoppingLists.get_shopping_list!(shopping_list.id)
-      assert shopping_list.list_items == [list_item]
+      assert shopping_list.list_items == [list_item_w_product]
     end
   end
 end
