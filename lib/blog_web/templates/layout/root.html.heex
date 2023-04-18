@@ -10,87 +10,68 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body class="bg-slate-50">
-<<<<<<< Updated upstream
-  <header class="flex h-16 w-full">
 
-    <nav class="flex w-full h-16 bg-indigo-800 ">
-      <section class="flex justify-between w-1/2 h-16  text-3xl text-stone-200 ">
-        <a href="/" class="">
-          <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo" class="w-24 h-full " />
-        </a>
-        <a href="#" class="flex self-end">Blog</a>
-        <a href="/recipes" class="flex self-end">Recipes</a>
-        <a href="/products" class="flex self-end">Products</a>
-        <span class="flex self-end">About</span>
-      </section>
-      <section class="flex justify-end w-3/4 h-24 pr-10">
-        <span class="flex self-center text-stone-200"><%= render "_user_menu.html", assigns %></span>
-      </section>
+    <!--header class="flex h-16 w-full">
 
-    </nav>
+      <nav class="flex w-full h-16 bg-indigo-800 ">
+        <section class="flex justify-between w-1/2 h-16  text-3xl text-stone-200 ">
+          <a href="/" class="">
+            <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="listaroo logo" class="w-24 h-full " />
+          </a>
+          <a href="#" class="flex self-end">Blog</a>
+          <a href="/recipes" class="flex self-end">Recipes</a>
+          <a href="/products" class="flex self-end">Products</a>
+          <span class="flex self-end">About</span>
+        </section>
+        <section class="flex justify-end w-3/4 h-24 pr-10">
+          <span class="flex self-center text-stone-200"><%= render "_user_menu.html", assigns %></span>
+        </section>
 
-  </header>
-=======
-  <header class="w-full">
-  <nav class="fixed flex flex-wrap items-center justify-between w-full h-16 bg-indigo-800 px-6">
-    <div class="flex items-center">
-      <a href="/" class="flex items-center">
-        <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="Listaroo logo" class="w-12 h-12 mr-2 my-auto" />
-        <span class="text-stone-200 font-medium text-lg">Listaroo</span>
-      </a>
-    </div>
+      </nav>
 
-    <!-- Menu button for mobile view -->
-    <button type="button" class="block lg:hidden text-stone-200 ml-auto hover:text-white focus:text-white focus:outline-none" id="menu-btn">
-      <svg class="h-6 w-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <title>Menu</title>
-        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-      </svg>
-    </button>
+    </header-->
 
-    <!-- Main menu -->
-    <div class="hidden w-full lg:flex lg:items-center lg:w-auto" id="main-menu">
-      <div class="lg:flex lg:items-center">
-        <a href="#" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Blog</a>
-        <a href="/recipes" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Recipes</a>
-        <a href="/products" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Products</a>
-        <a href="/shopping_lists" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Shopping List</a>
-      </div>
-      <div class="lg:flex lg:items-center lg:justify-center ml-auto">
-        <a href="#" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">About</a>
-        <span class="text-stone-200 mr-4"><%= render "_user_menu.html", assigns %></span>
-      </div>
-    </div>
-  </nav>
-</header>
+    <header class="w-full">
+      <nav class="fixed flex flex-wrap items-center justify-between w-full h-16 bg-indigo-800 px-6">
+        <div class="flex items-center">
+          <a href="/" class="flex items-center">
+            <img src={Routes.static_path(@conn, "/images/kangaroo_vectors/kangaroo.jpg")} alt="Listaroo logo" class="w-12 h-12 mr-2 my-auto" />
+            <span class="text-stone-200 font-medium text-lg">Listaroo</span>
+          </a>
+        </div>
 
-<script>
-  // Add event listener for menu button click
-  document.getElementById("menu-btn").addEventListener("click", () => {
-    const mainMenu = document.getElementById("main-menu");
-    mainMenu.classList.toggle("hidden");
-  });
-</script>
+        <!-- Menu button for mobile view -->
+        <button type="button" class="block lg:hidden text-stone-200 ml-auto hover:text-white focus:text-white focus:outline-none" id="menu-btn">
+          <svg class="h-6 w-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
 
->>>>>>> Stashed changes
-  <!--
-
-
-        <nav class=" w-full">
-
-          <section class="flex justify-start px-10">
-
-            <section class="flex justify-end w-1/2 h-36 bg-red-500">
-              <div class="w-56 flex justify-between">
-
-              </div>
-            </section>
-
-          </section>
-        </nav>
-
+        <!-- Main menu -->
+        <div class="hidden w-full lg:flex lg:items-center lg:w-auto" id="main-menu">
+          <div class="lg:flex lg:items-center">
+            <a href="#" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Blog</a>
+            <a href="/recipes" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Recipes</a>
+            <a href="/products" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Products</a>
+            <a href="/shopping_lists" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Shopping List</a>
+          </div>
+          <div class="lg:flex lg:items-center lg:justify-center ml-auto">
+            <a href="#" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">About</a>
+            <span class="text-stone-200 mr-4"><%= render "_user_menu.html", assigns %></span>
+          </div>
+        </div>
+      </nav>
     </header>
-    -->
+
+    <script>
+      // Add event listener for menu button click
+      document.getElementById("menu-btn").addEventListener("click", () => {
+        const mainMenu = document.getElementById("main-menu");
+        mainMenu.classList.toggle("hidden");
+      });
+    </script>
+
     <%= @inner_content %>
   </body>
 </html>
