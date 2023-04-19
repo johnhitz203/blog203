@@ -27,6 +27,13 @@ defmodule BlogWeb.Router do
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
 
+    live "/recipes", RecipeLive.Index, :index
+    live "/recipes/new", RecipeLive.Index, :new
+    live "/recipes/:id/edit", RecipeLive.Index, :edit
+
+    live "/recipes/:id", RecipeLive.Show, :show
+    live "/recipes/:id/show/edit", RecipeLive.Show, :edit
+
     get "/", PageController, :index
   end
 
