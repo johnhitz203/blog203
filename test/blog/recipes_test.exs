@@ -1,6 +1,7 @@
 defmodule Blog.RecipesTest do
   use Blog.DataCase
 
+  alias Blog.Recipes.RecipeItem
   alias Blog.Recipes
 
   describe "recipes" do
@@ -15,9 +16,12 @@ defmodule Blog.RecipesTest do
       assert Recipes.list_recipes() == [recipe]
     end
 
-    test "get_recipe!/1 returns the recipe with given id" do
-      recipe = recipe_fixture()
-      assert Recipes.get_recipe!(recipe.id) == recipe
+    test "get_recipe!/1 returns the recipe with given id w/ it's associated recipe_items" do
+      recipe1 = recipe_fixture()
+      recipe_item1 = recipe_item_fixture(recipe_id: recipe1.id)
+      recipe_item2 = recipe_item_fixture(recipe_id: recipe1.id)
+
+      assert Recipes.get_recipe!(recipe1.id).recipe_item == [recipe_item1, recipe_item2]
     end
 
     test "create_recipe/1 with valid data creates a recipe" do
@@ -42,7 +46,8 @@ defmodule Blog.RecipesTest do
     test "update_recipe/2 with invalid data returns error changeset" do
       recipe = recipe_fixture()
       assert {:error, %Ecto.Changeset{}} = Recipes.update_recipe(recipe, @invalid_attrs)
-      assert recipe == Recipes.get_recipe!(recipe.id)
+
+      assert recipe.name == Recipes.get_recipe!(recipe.id).name
     end
 
     test "delete_recipe/1 deletes the recipe" do

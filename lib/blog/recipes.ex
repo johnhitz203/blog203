@@ -35,7 +35,11 @@ defmodule Blog.Recipes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe!(id), do: Repo.get!(Recipe, id)
+  def get_recipe!(id) do
+    Recipe
+    |> Repo.get!(id)
+    |> Repo.preload(:recipe_item)
+  end
 
   @doc """
   Creates a recipe.
@@ -146,6 +150,8 @@ defmodule Blog.Recipes do
 
   """
   def create_recipe_item(attrs \\ %{}) do
+    attrs = attrs["recipe_item"]
+
     %RecipeItem{}
     |> RecipeItem.changeset(attrs)
     |> Repo.insert()

@@ -6,7 +6,11 @@ defmodule BlogWeb.RecipeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :recipes, list_recipes())}
+    {
+      :ok,
+      socket
+      |> assign(:recipes, list_recipes())
+    }
   end
 
   @impl true
@@ -16,8 +20,8 @@ defmodule BlogWeb.RecipeLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Recipe")
     |> assign(:recipe, Recipes.get_recipe!(id))
+    |> assign(:page_title, "")
   end
 
   defp apply_action(socket, :new, _params) do

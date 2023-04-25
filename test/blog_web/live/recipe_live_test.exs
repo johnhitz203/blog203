@@ -49,7 +49,7 @@ defmodule BlogWeb.RecipeLiveTest do
       {:ok, index_live, _html} = live(conn, Routes.recipe_index_path(conn, :index))
 
       assert index_live |> element("#recipe-#{recipe.id} a", "Edit") |> render_click() =~
-               "Edit Recipe"
+               "Edit #{recipe.name}"
 
       assert_patch(index_live, Routes.recipe_index_path(conn, :edit, recipe))
 
@@ -89,7 +89,7 @@ defmodule BlogWeb.RecipeLiveTest do
       {:ok, show_live, _html} = live(conn, Routes.recipe_show_path(conn, :show, recipe))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Recipe"
+               "Edit"
 
       assert_patch(show_live, Routes.recipe_show_path(conn, :edit, recipe))
 
