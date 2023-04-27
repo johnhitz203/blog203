@@ -1,11 +1,11 @@
 <div>
-  <h2>
+  <h1>
     <%= if @action == :edit do %>
       Edit <%= @recipe.name  %>
     <% else %>
       <%= @title %>
     <% end %>
-  </h2>
+  </h1>
 
   <.form
     let={f}
@@ -20,25 +20,20 @@
     <%= text_input f, :name %>
     <%= error_tag f, :name %>
 
-    <%#= @recipe.id %>
-    <!--h1>WTF? Over!</h1-->
-
-    <%#= if @recipe do %>
-
-    <%# end %>
-
-
-
-
-
-    <!--.live_component module={BlogWeb.RecipeLive.IngredientComponent} id="ingredient" recipe={@recipe} /-->
-
-
-
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
   </.form>
+
+  <h2>Ingredients</h2>
+  <%= if @recipe.recipe_items != [] do %>
+    <%= for item <- @recipe.recipe_items do %>
+      <%#= inspect(item.ingredient, label: "item form form_component_html line 31") %>
+      <%#= item.id %>
+      <.live_component module={IngredientForm} id={item.id} recipe={@recipe} item={item} />
+    <% end %>
+  <% end %>
+
   <.live_component module={IngredientForm} id="ingredient" recipe={@recipe} />
 
 

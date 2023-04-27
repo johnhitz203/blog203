@@ -4,7 +4,7 @@ defmodule Blog.Recipes.Recipe do
 
   schema "recipes" do
     field :name, :string
-    has_many :recipe_item, Blog.Recipes.RecipeItem
+    has_many :recipe_items, Blog.Recipes.RecipeItem
 
     timestamps()
   end

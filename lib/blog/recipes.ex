@@ -38,7 +38,7 @@ defmodule Blog.Recipes do
   def get_recipe!(id) do
     Recipe
     |> Repo.get!(id)
-    |> Repo.preload(:recipe_item)
+    |> Repo.preload(:recipe_items)
   end
 
   @doc """

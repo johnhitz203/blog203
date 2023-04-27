@@ -9,6 +9,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
       socket
       |> assign(assigns)
       |> assign_recipe()
+      |> assign_recipe_item()
       |> assign_changeset()
     }
   end
@@ -17,23 +18,44 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
     assign(socket, :recipe_id, %RecipeItem{recipe_id: recipe.id})
   end
 
+  defp assign_recipe_item(socket) do
+    item = socket.assigns[:item]
+
+    assign(socket, :item, item || nil)
+  end
+
   defp assign_changeset(%{assigns: %{recipe_id: recipe_id}} = socket) do
-    assign(socket, :changeset, RecipeItem.changeset(%RecipeItem{recipe_id: recipe_id}, %{}))
+    item = socket.assigns[:item]
+
+    assign(
+      socket,
+      :changeset,
+      RecipeItem.changeset(item || %RecipeItem{recipe_id: recipe_id}, %{})
+    )
   end
 
   def render(assigns) do
     ~H"""
-    <div id="ingredient">
+      <div id="ingredient">
+      <%= if @recipe.recipe_items !== [] do %>
+        <h1><%#= @name %></h1>
+        <%= inspect(@id) %>
+      <% end %>
 
-      <%= inspect(@recipe_id) %><br>
+      <%#= inspect(@item.ingredient) %>
+      <%!-- <h2>Ingredients</h2> --%>
 
       <.form
         let={f}
         for={@changeset}
         id="ingredient-form"
         phx-target={@myself}
-        phx-click="validate"
-        phx-submit="save">
+
+        phx-submit="add_ingredient">
+        <!--phx-click="validate"-->
+        <!--phx-submit="save"-->
+
+
 
         <%= label f, :ingredient %>
         <%= text_input f, :ingredient %>
@@ -49,21 +71,41 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
         <%= hidden_input f, :recipe_id, value: @recipe.id %>
 
-         <%= submit "add ingredient", phx_disable_with: "Saving..." %>
+        <%= if @item != nil do %>
+          <%= submit "update ingredient", phx_disable_with: "Saving..." %>
+        <% else %>
+          <%= submit "add ingredient", phx_disable_with: "Saving..." %>
+        <% end %>
       </.form>
+      <a href="/recipes" class="mx-3 text-stone-200 hover:text-white transition duration-300 ease-in-out">Save</a>
     </div>
     """
   end
 
-  def handle_event("save", params, socket) do
-    IO.inspect(socket.assigns.recipe, label: "assigns ingredient_form 59")
+  # def handle_event("save", params, socket) do
+  #   IO.inspect(socket.assigns.recipe, label: "assigns ingredient_form 59")
 
-    # recipe_id =
-    #   socket.assigns.recipe.id
-    #   |> IO.inspect(label: "line 63 ingredient form")
+  #   # recipe_id =
+  #   #   socket.assigns.recipe.id
+  #   #   |> IO.inspect(label: "line 63 ingredient form")
 
-    Recipes.create_recipe_item(params)
-    {:noreply, socket}
+  #   Recipes.create_recipe_item(params)
+  #   {:noreply, socket}
+  # end
+
+  def handle_event("add_ingredient", params, socket) do
+    case Recipes.create_recipe_item(params) do
+      {:ok, recipe_item} ->
+        IO.inspect(recipe_item, label: "Recipe item ingredient form line: 100")
+
+        {:noreply,
+         socket
+         |> put_flash(:info, "#{recipe_item.ingredient} successfully inserted!")
+         |> push_redirect(to: "/recipes/#{recipe_item.recipe_id}/edit")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
   end
 
   # %{"_target" => ["recipe_item", "ingredient"], "recipe_item" => %{"ingredient" => "d", "quantity" => "", "recipe_i" => "", "units" => ""}}
@@ -73,8 +115,12 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
   #   {:noreply, socket}
   # end
 
-  def handle_event("validate", params, socket) do
-    IO.inspect(params, label: "params 78")
-    {:noreply, socket}
-  end
+  # def handle_event("validate", %{"recipe_item" => recipe_params}, socket) do
+  #   changeset =
+  #     socket.assigns.recipe_item
+  #     |> Recipes.change_recipe(recipe_params)
+  #     |> Map.put(:action, :validate)
+
+  #   {:noreply, assign(socket, :changeset, changeset)}
+  # end
 end
