@@ -1,39 +1,42 @@
-<h1>Listing Recipes</h1>
+<div class="mx-20">
+  <h1>Listing Recipes</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.recipe_index_path(@socket, :index)}>
-    <.live_component
-      module={BlogWeb.RecipeLive.FormComponent}
-      id={@recipe.id || :new}
-      title={@page_title}
-      action={@live_action}
-      recipe={@recipe}
-      return_to={Routes.recipe_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
+  <%= if @live_action in [:new, :edit] do %>
+    <.modal return_to={Routes.recipe_index_path(@socket, :index)}>
+      <.live_component
+        module={BlogWeb.RecipeLive.FormComponent}
+        id={@recipe.id || :new}
+        title={@page_title}
+        action={@live_action}
+        recipe={@recipe}
+        return_to={Routes.recipe_index_path(@socket, :index)}
+      />
+    </.modal>
+  <% end %>
 
-<table class="mt-20">
-  <thead>
-    <tr>
-      <th>Name</th>
+  <table class="mt-20">
+    <thead>
+      <tr>
+        <th>Name</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="recipes">
-    <%= for recipe <- @recipes do %>
-      <tr id={"recipe-#{recipe.id}"}>
-        <td><%= recipe.name %></td>
-
-        <td>
-          <span><%= live_redirect "Show", to: Routes.recipe_show_path(@socket, :show, recipe) %></span>
-          <span><%= live_patch "Edit", to: Routes.recipe_index_path(@socket, :edit, recipe) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: recipe.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody id="recipes">
+      <%= for recipe <- @recipes do %>
+        <tr id={"recipe-#{recipe.id}"}>
+          <td><%= recipe.name %></td>
 
-<span><%= live_patch "New Recipe", to: Routes.recipe_index_path(@socket, :new) %></span>
+          <td>
+            <span><%= live_redirect "Show", to: Routes.recipe_show_path(@socket, :show, recipe) %></span>
+            <span><%= live_patch "Edit", to: Routes.recipe_index_path(@socket, :edit, recipe) %></span>
+            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: recipe.id, data: [confirm: "Are you sure?"] %></span>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <span><%= live_patch "New Recipe", to: Routes.recipe_index_path(@socket, :new) %></span>
+
+</div>

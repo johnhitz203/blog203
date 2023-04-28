@@ -1,6 +1,8 @@
 defmodule BlogWeb.RecipeLiveTest do
   use BlogWeb.ConnCase
 
+  alias Blog.Recipes
+
   import Phoenix.LiveViewTest
   import Blog.RecipesFixtures
 
@@ -14,9 +16,10 @@ defmodule BlogWeb.RecipeLiveTest do
   end
 
   describe "Index" do
-    setup [:create_recipe]
+    # setup [:create_recipe]
 
-    test "lists all recipes", %{conn: conn, recipe: recipe} do
+    test "lists all recipes", %{conn: conn} do
+      recipe = recipe_fixture()
       {:ok, _index_live, html} = live(conn, Routes.recipe_index_path(conn, :index))
 
       assert html =~ "Listing Recipes"
@@ -35,17 +38,22 @@ defmodule BlogWeb.RecipeLiveTest do
              |> form("#recipe-form", recipe: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
-      {:ok, _, html} =
+      result =
         index_live
         |> form("#recipe-form", recipe: @create_attrs)
         |> render_submit()
-        |> follow_redirect(conn, Routes.recipe_index_path(conn, :index))
+
+      [recipe] = Recipes.list_recipes()
+
+      {:ok, view, html} =
+        follow_redirect(result, conn, Routes.recipe_index_path(conn, :edit, recipe.id))
 
       assert html =~ "Recipe created successfully"
       assert html =~ "some name"
     end
 
-    test "updates recipe in listing", %{conn: conn, recipe: recipe} do
+    test "updates recipe in index listing", %{conn: conn} do
+      recipe = recipe_fixture()
       {:ok, index_live, _html} = live(conn, Routes.recipe_index_path(conn, :index))
 
       assert index_live |> element("#recipe-#{recipe.id} a", "Edit") |> render_click() =~
@@ -67,7 +75,17 @@ defmodule BlogWeb.RecipeLiveTest do
       assert html =~ "some updated name"
     end
 
-    test "deletes recipe in listing", %{conn: conn, recipe: recipe} do
+    test "deletes recipe w/o recipe_items in listing", %{conn: conn} do
+      recipe = recipe_fixture()
+      {:ok, index_live, _html} = live(conn, Routes.recipe_index_path(conn, :index))
+
+      assert index_live |> element("#recipe-#{recipe.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#recipe-#{recipe.id}")
+    end
+
+    test "deletes recipe w/ recipe_items in listing", %{conn: conn} do
+      recipe = recipe_fixture()
+      recipe_item_fixture(recipe_id: recipe.id)
       {:ok, index_live, _html} = live(conn, Routes.recipe_index_path(conn, :index))
 
       assert index_live |> element("#recipe-#{recipe.id} a", "Delete") |> render_click()

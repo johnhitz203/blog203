@@ -6,7 +6,7 @@ defmodule Blog.Repo.Migrations.CreateRecipeItems do
       add :ingredient, :string
       add :unit, :string
       add :quantity, :integer
-      add :recipe_id, references(:recipes, on_delete: :nothing)
+      add :recipe_id, references(:recipes, on_delete: :delete_all)
       add :product_id, references(:products, on_delete: :nothing)
 
       timestamps()

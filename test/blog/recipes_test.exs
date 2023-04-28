@@ -16,12 +16,12 @@ defmodule Blog.RecipesTest do
       assert Recipes.list_recipes() == [recipe]
     end
 
-    test "get_recipe!/1 returns the recipe with given id w/ it's associated recipe_items" do
+    test "get_recipe!/1 given a recipe id returns the recipe w/ it's associated recipe_items" do
       recipe1 = recipe_fixture()
-      recipe_item1 = recipe_item_fixture(recipe_id: recipe1.id)
+      recipe_item1 = recipe_item_fixture(%{recipe_id: recipe1.id})
       recipe_item2 = recipe_item_fixture(recipe_id: recipe1.id)
 
-      assert Recipes.get_recipe!(recipe1.id).recipe_item == [recipe_item1, recipe_item2]
+      assert Recipes.get_recipe!(recipe1.id).recipe_items == [recipe_item1, recipe_item2]
     end
 
     test "create_recipe/1 with valid data creates a recipe" do
@@ -54,6 +54,16 @@ defmodule Blog.RecipesTest do
       recipe = recipe_fixture()
       assert {:ok, %Recipe{}} = Recipes.delete_recipe(recipe)
       assert_raise Ecto.NoResultsError, fn -> Recipes.get_recipe!(recipe.id) end
+    end
+
+    test "delete_recipe/1 deletes the recipe with items" do
+      recipe = recipe_fixture()
+      recipe_item = recipe_item_fixture(recipe_id: recipe.id)
+      assert Recipes.get_recipe_item!(recipe_item.id) == recipe_item
+      assert {:ok, %Recipe{}} = Recipes.delete_recipe(recipe)
+
+      assert_raise Ecto.NoResultsError, fn -> Recipes.get_recipe!(recipe.id) end
+      assert_raise Ecto.NoResultsError, fn -> Recipes.get_recipe_item!(recipe_item.id) end
     end
 
     test "change_recipe/1 returns a recipe changeset" do

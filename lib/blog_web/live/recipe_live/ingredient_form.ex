@@ -18,6 +18,10 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
     assign(socket, :recipe_id, %RecipeItem{recipe_id: recipe.id})
   end
 
+  defp assign_id(socket) do
+    id = socket.assigns[:id]
+  end
+
   defp assign_recipe_item(socket) do
     item = socket.assigns[:item]
 
@@ -36,7 +40,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
   def render(assigns) do
     ~H"""
-      <div id="ingredient">
+      <div >
       <%= if @recipe.recipe_items !== [] do %>
         <h1><%#= @name %></h1>
         <%= inspect(@id) %>
@@ -94,14 +98,18 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
   # end
 
   def handle_event("add_ingredient", params, socket) do
-    case Recipes.create_recipe_item(params) do
+    case Recipes.create_recipe_item(params["recipe_item"]) do
       {:ok, recipe_item} ->
         IO.inspect(recipe_item, label: "Recipe item ingredient form line: 100")
 
-        {:noreply,
-         socket
-         |> put_flash(:info, "#{recipe_item.ingredient} successfully inserted!")
-         |> push_redirect(to: "/recipes/#{recipe_item.recipe_id}/edit")}
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "#{recipe_item.ingredient} successfully inserted!")
+          |> push_redirect(to: "/recipes/#{recipe_item.recipe_id}/edit")
+
+          # |> push_patch(to: "/recipes/#{recipe_item.recipe_id}/edit")
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

@@ -150,7 +150,7 @@ defmodule Blog.Recipes do
 
   """
   def create_recipe_item(attrs \\ %{}) do
-    attrs = attrs["recipe_item"]
+    # attrs = attrs["recipe_item"]
 
     %RecipeItem{}
     |> RecipeItem.changeset(attrs)
