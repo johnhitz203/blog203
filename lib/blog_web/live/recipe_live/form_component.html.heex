@@ -30,11 +30,11 @@
     <%= for item <- @recipe.recipe_items do %>
       <%#= inspect(item.ingredient, label: "item form form_component_html line 31") %>
       <%#= item.id %>
-      <.live_component module={IngredientForm} id={item.id} recipe={@recipe} item={item} />
+      <.live_component module={IngredientForm} id={item.id} recipe_id={@recipe.id} item={item} />
     <% end %>
   <% end %>
 
-  <.live_component module={IngredientForm} id="ingredient" recipe={@recipe} />
+  <.live_component module={IngredientForm} id="ingredient" recipe_id={@recipe.id} />
 
 
 </div>

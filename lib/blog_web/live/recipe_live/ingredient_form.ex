@@ -8,24 +8,8 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
       :ok,
       socket
       |> assign(assigns)
-      |> assign_recipe()
-      |> assign_recipe_item()
       |> assign_changeset()
     }
-  end
-
-  defp assign_recipe(%{assigns: %{recipe: recipe}} = socket) do
-    assign(socket, :recipe_id, %RecipeItem{recipe_id: recipe.id})
-  end
-
-  defp assign_id(socket) do
-    id = socket.assigns[:id]
-  end
-
-  defp assign_recipe_item(socket) do
-    item = socket.assigns[:item]
-
-    assign(socket, :item, item || nil)
   end
 
   defp assign_changeset(%{assigns: %{recipe_id: recipe_id}} = socket) do
@@ -41,13 +25,6 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
   def render(assigns) do
     ~H"""
       <div >
-      <%= if @recipe.recipe_items !== [] do %>
-        <h1><%#= @name %></h1>
-        <%= inspect(@id) %>
-      <% end %>
-
-      <%#= inspect(@item.ingredient) %>
-      <%!-- <h2>Ingredients</h2> --%>
 
       <.form
         let={f}
@@ -73,9 +50,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         <%= text_input f, :unit %>
         <%= error_tag f, :unit %>
 
-        <%= hidden_input f, :recipe_id, value: @recipe.id %>
-
-        <%= if @item != nil do %>
+        <%= if assigns[:item] do %>
           <%= submit "update ingredient", phx_disable_with: "Saving..." %>
         <% else %>
           <%= submit "add ingredient", phx_disable_with: "Saving..." %>
@@ -98,7 +73,9 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
   # end
 
   def handle_event("add_ingredient", params, socket) do
-    case Recipes.create_recipe_item(params["recipe_item"]) do
+    params = Map.put(params["recipe_item"], "recipe_id", socket.assigns.recipe_id)
+
+    case Recipes.create_recipe_item(params) do
       {:ok, recipe_item} ->
         IO.inspect(recipe_item, label: "Recipe item ingredient form line: 100")
 
