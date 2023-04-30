@@ -15,4 +15,10 @@ defmodule Blog.Recipes.Recipe do
     |> cast(attrs, [:name])
     |> validate_required([:name])
   end
+
+  def changeset_with_items(recipe, attrs) do
+    recipe
+    |> cast(attrs, [])
+    |> cast_assoc(:recipe_items, with: RecipeItem.changeset())
+  end
 end

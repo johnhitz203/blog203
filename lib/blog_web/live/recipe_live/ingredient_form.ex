@@ -24,7 +24,12 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
   def render(assigns) do
     ~H"""
-      <div >
+    <div >
+      <%!-- <%= unless assigns[:item] %>
+      <p>No Item</p>
+      <% end %> --%>
+
+
 
       <.form
         let={f}
@@ -36,6 +41,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         <!--phx-click="validate"-->
         <!--phx-submit="save"-->
 
+          <% IO.inspect("Ingredient Form") %>
 
 
         <%= label f, :ingredient %>
@@ -77,7 +83,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
     case Recipes.create_recipe_item(params) do
       {:ok, recipe_item} ->
-        IO.inspect(recipe_item, label: "Recipe item ingredient form line: 100")
+        send(self(), {"message", recipe_item.recipe_id})
 
         {
           :noreply,
@@ -108,4 +114,19 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
   #   {:noreply, assign(socket, :changeset, changeset)}
   # end
+
+  ##############################
+  # Suggestion from justin_yxx #
+  ##############################
+  # <.form let={f} phx-submit="edit">
+  #   <%= for {i, f} <- Enum.with_index(@recipe.recipe_items), do: %>
+
+  #     <.input f, :name, placeholder: "Name"
+  #     <.input f, :quantity, placeholder: "Quantity"
+  #     <.input f, :unit, placeholder: "Unit"
+
+  #   <% end %>
+  # </.form>
+
+  # <.form let{f} for={@ingredient_changeset} phx-submit="add"/>
 end
