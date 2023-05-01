@@ -25,7 +25,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
   def render(assigns) do
     ~H"""
     <div>
-      <.form
+      <.form class="flex"
         let={f}
         for={@changeset}
         id="ingredient-form"
@@ -35,23 +35,30 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         <!--phx-click="validate"-->
         <!--phx-submit="save"-->
 
-          <% IO.inspect("Ingredient Form") %>
 
-
+        <div class="flex flex-col m-1">
         <%= label f, :ingredient %>
         <%= text_input f, :ingredient %>
         <%= error_tag f, :ingredient %>
+        </div>
 
+        <div class="flex flex-col m-1 w-16">
         <%= label f, :quantity %>
         <%= text_input f, :quantity %>
         <%= error_tag f, :quantity %>
+        </div>
 
+        <div class="flex flex-col m-1 w-24">
         <%= label f, :unit %>
         <%= text_input f, :unit %>
         <%= error_tag f, :unit %>
+        </div>
 
         <%= if assigns[:item] do %>
+          <div class="flex items-center">
           <%= submit "update ingredient", phx_disable_with: "Saving..." %>
+          <button class="h-12 w-12 ml-5 rounded-full bg-gray-300 hover:bg-gray-500 hover:text-gray-200 text-5xl align-middle" phx-click="add_to_list">+</button>
+          </div>
         <% else %>
           <%= submit "add ingredient", phx_disable_with: "Saving..." %>
         <% end %>
