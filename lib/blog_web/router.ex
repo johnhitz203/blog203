@@ -34,6 +34,13 @@ defmodule BlogWeb.Router do
     live "/recipes/:id", RecipeLive.Show, :show
     live "/recipes/:id/show/edit", RecipeLive.Show, :edit
 
+    live "/shopping_lists", ShoppingListLive.Index, :index
+    live "/shopping_lists/new", ShoppingListLive.Index, :new
+    live "/shopping_lists/:id/edit", ShoppingListLive.Index, :edit
+
+    live "/shopping_lists/:id", ShoppingListLive.Show, :show
+    live "/shopping_lists/:id/show/edit", ShoppingListLive.Show, :edit
+
     get "/", PageController, :index
   end
 

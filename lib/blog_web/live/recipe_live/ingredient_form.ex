@@ -24,13 +24,7 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
   def render(assigns) do
     ~H"""
-    <div >
-      <%!-- <%= unless assigns[:item] %>
-      <p>No Item</p>
-      <% end %> --%>
-
-
-
+    <div>
       <.form
         let={f}
         for={@changeset}
