@@ -9,6 +9,8 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
       socket
       |> assign(assigns)
       |> assign_changeset()
+      |> assign(search_results: [])
+      |> assign(search: "")
     }
   end
 
@@ -30,9 +32,9 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         for={@changeset}
         id="ingredient-form"
         phx-target={@myself}
+        :phx-change="validate"
 
         phx-submit="add_ingredient">
-        <!--phx-click="validate"-->
         <!--phx-submit="save"-->
 
 

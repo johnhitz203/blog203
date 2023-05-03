@@ -22,6 +22,30 @@ defmodule Blog.Products do
   end
 
   @doc """
+  Returns a list of products that match the query string
+
+  Returns an empty list if no product matches the query string
+
+  ## Examples
+
+      iex>list_products_by_name("bacon")
+      ["bacon"]
+
+      iex>list_products_by_name("bak choy")
+      ["bak choy"]
+
+      iex>list_products_by_name("ba")
+      ["bacon", "bak choy"]
+
+      iex>list_products_by_name("does not exist")
+      []
+  """
+  def list_products_by_name(name) do
+    Product.filter_by_name(name)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single product.
 
   Raises `Ecto.NoResultsError` if the Product does not exist.

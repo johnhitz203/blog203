@@ -1,0 +1,56 @@
+# Sequence Diagram
+
+## Section
+
+```mermaid
+     sequenceDiagram
+       participant UA as User A
+       participant S as Server
+       participant PS as PubSub
+       participant M as Mailer
+       participant DB as Database
+       participant SL as Shopping List A & B
+       participant UB as User B
+
+       UA->>S: /recipe
+       S->>DB: query
+       DB-->>S: [recipes]
+       S-->>UA: Index [recipe links]
+
+       Note right of UA: Displays a list of<br/> recipe names<br/> as links
+       UA->>S: /recipe/id
+       S->>DB: query
+       DB-->>S: [recipes]
+       S-->>UA: Show recipes/id
+
+
+       Note right of UA: Displays the recipe<br/>as a list of product<br/> names as links that<br/> add the product to a<br/>shopping list.
+       Note right of UA: User clicks on the<br/> product link
+       alt User currently has no shopping lists
+       UA->>S: POST /shopping_lists/new?<br/>product_id=product_id 
+       S->>DB: query create list w/ product
+       DB-->>S: {:ok, response} | {:error, reason}
+       %% Need an alt her for ok and error tuple
+       S->>PS: Server send msg<br/> via PubSub
+       PS ->>SL: Pushes data to update list<br/> in real time
+       S->>M: Server sends txt via Mailer
+       M->>UB: User B receives text msg that a new item is added to list
+       S-->>UA: Flash Msg: "product<br/> has been added to<br/> the shopping list"
+       else
+       UA->>S: /shopping_lists/:id/add<br/>?list_items=product_id
+       S->>DB: query create list w/ product
+       DB-->>S: {:ok, response} | {:error, reason}
+       %% Need an alt her for ok and error tuple
+       S->>PS: Server send msg<br/> via PubSub
+       PS ->>SL: Pushes data to update list<br/> in real time
+       S->>M: Server sends txt via Mailer
+       M->>UB: User B receives text msg that a new item is added to list
+       S-->>UA: Flash Msg: "product<br/> has been added to<br/> the shopping list"
+       end
+
+       Note left of UB: User B marks item as<br/> shopped by clicking
+       UB->>S: /shopping_list/:id/product/:id<br/>Updates list item<br/> as purchased
+       S->>DB: query
+       DB-->>S: {:ok, response} | {:error, reason}
+       S->>SL: Update UI w/ <br><del>Product</del>
+```

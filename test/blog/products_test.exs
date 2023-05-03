@@ -20,6 +20,16 @@ defmodule Blog.ProductsTest do
       assert Products.get_product!(product.id) == product
     end
 
+    test "list_products_by_name/1 returns products with \"name\" in the ingredient field" do
+      tomato = product_fixture(name: "tomato")
+      tamarid = product_fixture(name: "tamarid")
+      tomatillo = product_fixture(name: "tomatillo")
+
+      assert Products.list_products_by_name("Tomato") == ["tomato"]
+      assert Products.list_products_by_name("tomatillo") == ["tomatillo"]
+      assert Products.list_products_by_name("to") == ["tomato", "tomatillo"]
+    end
+
     test "create_product/1 with valid data creates a product" do
       valid_attrs = %{name: "some name"}
 
