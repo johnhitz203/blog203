@@ -1,0 +1,55 @@
+# Entity Relationship Diagram
+
+## Section
+
+```mermaid
+  erDiagram
+
+    Product {
+      string product_name
+    }
+
+
+    ShoppingList {
+      string list_name
+      ListItem[] list_items
+    }
+
+    ShoppingList ||--|{ ListItem :"one to many"
+
+    ListItem {
+      id list_id
+      id product_id
+      int quantity
+    }
+
+
+    ListItem }|--|| Product :"one to one"
+
+
+    
+    Recipe {
+      string name
+      RecipeItem[] recipe_items
+    }
+
+     RecipeItem }|--|| Product :"one to one"
+
+
+    RecipeItem }|--|| Recipe :"one to many"
+    RecipeItem {
+      id product
+      int quantity
+    }
+
+    User }o--o{ Recipe :"one_to_many"
+    
+    User {
+      string username
+      string email
+      string password_hash
+    }
+
+    ShoppingList }|--|{ User :"many to many"
+
+```

@@ -17,4 +17,20 @@ defmodule Blog.RecipesFixtures do
 
     recipe
   end
+
+  @doc """
+  Generate a recipe_item.
+  """
+  def recipe_item_fixture(attrs \\ %{}) do
+    {:ok, recipe_item} =
+      attrs
+      |> Enum.into(%{
+        ingredient: "some ingredient",
+        quantity: 42,
+        unit: "some unit"
+      })
+      |> Blog.Recipes.create_recipe_item()
+
+    recipe_item
+  end
 end

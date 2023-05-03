@@ -27,8 +27,21 @@ defmodule BlogWeb.Router do
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
 
+    live "/recipes", RecipeLive.Index, :index
+    live "/recipes/new", RecipeLive.Index, :new
+    live "/recipes/:id/edit", RecipeLive.Index, :edit
+
+    live "/recipes/:id", RecipeLive.Show, :show
+    live "/recipes/:id/show/edit", RecipeLive.Show, :edit
+
+    live "/shopping_lists", ShoppingListLive.Index, :index
+    live "/shopping_lists/new", ShoppingListLive.Index, :new
+    live "/shopping_lists/:id/edit", ShoppingListLive.Index, :edit
+
+    live "/shopping_lists/:id", ShoppingListLive.Show, :show
+    live "/shopping_lists/:id/show/edit", ShoppingListLive.Show, :edit
+
     get "/", PageController, :index
-    resources "/recipes", RecipeController
   end
 
   # Other scopes may use custom stacks.

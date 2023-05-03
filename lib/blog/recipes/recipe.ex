@@ -4,6 +4,7 @@ defmodule Blog.Recipes.Recipe do
 
   schema "recipes" do
     field :name, :string
+    has_many :recipe_items, Blog.Recipes.RecipeItem
 
     timestamps()
   end
@@ -13,5 +14,11 @@ defmodule Blog.Recipes.Recipe do
     recipe
     |> cast(attrs, [:name])
     |> validate_required([:name])
+  end
+
+  def changeset_with_items(recipe, attrs) do
+    recipe
+    |> cast(attrs, [])
+    |> cast_assoc(:recipe_items, with: RecipeItem.changeset())
   end
 end
