@@ -11,7 +11,8 @@ defmodule BlogWeb.RecipeLive.FormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> assign(:time, DateTime.utc_now())}
   end
 
   @impl true
@@ -28,7 +29,27 @@ defmodule BlogWeb.RecipeLive.FormComponent do
     save_recipe(socket, socket.assigns.action, recipe_params)
   end
 
+  defp save_recipe(socket, :add_ingredient, recipe_params) do
+    IO.inspect(recipe_params, label: "recipe params in add_ingredient")
+
+    case Recipes.create_recipe(recipe_params) do
+      {:ok, recipe} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Recipe created successfully")
+          # |> push_redirect(to: "/recipes/#{recipe.id}/edit")
+          # |> push_redirect(to: socket.assigns.return_to)
+        }
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
   defp save_recipe(socket, :edit, recipe_params) do
+    IO.inspect(recipe_params, label: "recipe params in edit")
+
     case Recipes.update_recipe(socket.assigns.recipe, recipe_params) do
       {:ok, _recipe} ->
         {:noreply,
@@ -44,10 +65,13 @@ defmodule BlogWeb.RecipeLive.FormComponent do
   defp save_recipe(socket, :new, recipe_params) do
     case Recipes.create_recipe(recipe_params) do
       {:ok, recipe} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Recipe created successfully")
-         |> push_redirect(to: "/recipes/#{recipe.id}/edit")}
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Recipe created successfully")
+          |> push_redirect(to: "/recipes/#{recipe.id}")
+          #  |> push_redirect(to: socket.assigns.return_to)
+        }
 
       #  |> push_redirect(to: socket.assigns.return_to)}
 

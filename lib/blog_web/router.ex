@@ -30,6 +30,7 @@ defmodule BlogWeb.Router do
     live "/recipes", RecipeLive.Index, :index
     live "/recipes/new", RecipeLive.Index, :new
     live "/recipes/:id/edit", RecipeLive.Index, :edit
+    live "/recipes/:id/add_ingredient", RecipeLive.Index, :add_ingredient
 
     live "/recipes/:id", RecipeLive.Show, :show
     live "/recipes/:id/show/edit", RecipeLive.Show, :edit

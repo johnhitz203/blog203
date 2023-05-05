@@ -20,6 +20,12 @@ defmodule BlogWeb.RecipeLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
+  defp apply_action(socket, :add_ingredient, %{"id" => id}) do
+    socket
+    |> assign(:recipe, Recipes.get_recipe!(id))
+    |> assign(:page_title, "Add Ingredient")
+  end
+
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:recipe, Recipes.get_recipe!(id))
@@ -48,16 +54,16 @@ defmodule BlogWeb.RecipeLive.Index do
 
   # causes re-render when ingredient is added
   # Need to re-implement form
-  # def handle_info({msg, id}, socket) do
-  #   IO.inspect(msg, label: "Catchall handle_info")
+  def handle_info({msg, id}, socket) do
+    IO.inspect(msg, label: "Catchall handle_info")
 
-  #   socket =
-  #     socket
-  #     |> assign(:recipes, list_recipes())
-  #     |> assign(:recipe, Recipes.get_recipe!(id))
+    socket =
+      socket
+      |> assign(:recipes, list_recipes())
+      |> assign(:recipe, Recipes.get_recipe!(id))
 
-  #   {:noreply, socket}
-  # end
+    {:noreply, socket}
+  end
 
   defp list_recipes do
     Recipes.list_recipes()
