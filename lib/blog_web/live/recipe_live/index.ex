@@ -52,8 +52,6 @@ defmodule BlogWeb.RecipeLive.Index do
 
   @impl true
   def handle_info({"recipe_item_created", id}, socket) do
-    IO.inspect("recipe_item_created", label: "Catchall handle_info")
-
     socket =
       socket
       |> assign(:recipes, list_recipes())
