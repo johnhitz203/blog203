@@ -6,8 +6,6 @@ defmodule BlogWeb.RecipeLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    IO.inspect(self(), label: "Mount pid")
-
     {
       :ok,
       socket
@@ -52,10 +50,9 @@ defmodule BlogWeb.RecipeLive.Index do
     {:noreply, assign(socket, :recipes, list_recipes())}
   end
 
-  # causes re-render when ingredient is added
-  # Need to re-implement form
-  def handle_info({msg, id}, socket) do
-    IO.inspect(msg, label: "Catchall handle_info")
+  @impl true
+  def handle_info({"recipe_item_created", id}, socket) do
+    IO.inspect("recipe_item_created", label: "Catchall handle_info")
 
     socket =
       socket

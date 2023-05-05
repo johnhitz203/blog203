@@ -46,7 +46,7 @@ defmodule BlogWeb.RecipeLiveTest do
       [recipe] = Recipes.list_recipes()
 
       {:ok, view, html} =
-        follow_redirect(result, conn, Routes.recipe_index_path(conn, :edit, recipe.id))
+        follow_redirect(result, conn, Routes.recipe_show_path(conn, :show, recipe.id))
 
       assert html =~ "Recipe created successfully"
       assert html =~ "some name"

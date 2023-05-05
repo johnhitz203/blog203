@@ -30,8 +30,6 @@ defmodule BlogWeb.RecipeLive.FormComponent do
   end
 
   defp save_recipe(socket, :add_ingredient, recipe_params) do
-    IO.inspect(recipe_params, label: "recipe params in add_ingredient")
-
     case Recipes.create_recipe(recipe_params) do
       {:ok, recipe} ->
         {
@@ -48,8 +46,6 @@ defmodule BlogWeb.RecipeLive.FormComponent do
   end
 
   defp save_recipe(socket, :edit, recipe_params) do
-    IO.inspect(recipe_params, label: "recipe params in edit")
-
     case Recipes.update_recipe(socket.assigns.recipe, recipe_params) do
       {:ok, _recipe} ->
         {:noreply,
