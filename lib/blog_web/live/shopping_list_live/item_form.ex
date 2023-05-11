@@ -76,15 +76,15 @@ defmodule BlogWeb.ShoppingListLive.ItemForm do
   end
 
   def handle_event("add_item", params, socket) do
+    IO.inspect(params, label: "line 79")
+
     params =
       Map.put(params["shopping_list_items"], "shopping_list_id", socket.assigns.shopping_list_id)
 
+    IO.inspect(params, label: "item_form line 81")
+
     case Lists.create_shopping_list_items(params) do
       {:ok, shopping_list_item} ->
-        IO.inspect(shopping_list_item.shopping_list_id,
-          label: "shopping_list_item in item_form line 86"
-        )
-
         send(self(), {"list_item_created", shopping_list_item.shopping_list_id})
 
         {

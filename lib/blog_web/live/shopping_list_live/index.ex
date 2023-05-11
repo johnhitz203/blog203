@@ -42,13 +42,13 @@ defmodule BlogWeb.ShoppingListLive.Index do
 
   @impl true
   def handle_event("make_active", %{"list_id" => list_id} = params, socket) do
-    {:ok, active_list_id} = Blog.Accounts.update_active_list(socket.assigns.current_user, list_id)
-    socket = assign(socket, :active_list_id, active_list_id)
-    IO.inspect(socket.assigns.active_list_id, label: "my list")
+    {:ok, _user} = Blog.Accounts.update_active_list(socket.assigns.current_user, list_id)
+    socket = assign(socket, :active_list_id, String.to_integer(list_id))
 
     {
       :noreply,
       socket
+      # |> assign(:shopping_lists, list_shopping_lists())
     }
   end
 

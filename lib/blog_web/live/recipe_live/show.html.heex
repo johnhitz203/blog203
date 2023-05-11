@@ -26,7 +26,7 @@
     </ul>
     <section class="bg-blue-300">
       <%= for item <- @recipe.recipe_items do %>
-        <%= item.quantity %> <%= item.unit %> <%= item.ingredient %><button class="ml-10">Add to List</button><br>
+        <%= item.quantity %> <%= item.unit %> <%= item.ingredient %><button class="ml-10" phx-click="add_to_list" phx-value-item={item.ingredient} phx-value-quantity={item.quantity} phx-value-unit={item.unit}>Add to List</button><br>
       <% end %>
       <.live_component module={IngredientForm} id="ingredient" recipe_id={@recipe.id} />
     </section>

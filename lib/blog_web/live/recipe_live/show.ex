@@ -2,14 +2,18 @@ defmodule BlogWeb.RecipeLive.Show do
   use BlogWeb, :live_view
 
   alias Blog.Recipes
+  alias Blog.Lists
   alias BlogWeb.RecipeLive.IngredientForm
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    user = Blog.Accounts.get_user_by_session_token(session["user_token"])
+
     {
       :ok,
       socket
       |> assign(rerender?: false)
+      |> assign(current_user: user)
     }
   end
 
@@ -21,6 +25,17 @@ defmodule BlogWeb.RecipeLive.Show do
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:recipe, Recipes.get_recipe!(id))
     }
+  end
+
+  @impl true
+  def handle_event("add_to_list", attrs, socket) do
+    attrs =
+      Map.put(attrs, "shopping_list_id", socket.assigns.current_user.active_shopping_list_id)
+
+    Lists.create_shopping_list_items(attrs)
+    |> IO.inspect(label: "line 34")
+
+    {:noreply, socket}
   end
 
   @impl true

@@ -24,7 +24,7 @@
   </ul>
   <section class="bg-blue-300">
     <%= for item <- @shopping_list.shopping_list_items do %>
-      <%= item.item %><%= item.quantity %><%= item.unit %><button class="ml-10">Add to List</button><br>
+      <%= item.item %> <%= item.quantity %> <%= item.unit %> <button class="ml-10">Remove</button><br>
     <% end %>
      <.live_component module={ItemForm} id="item" shopping_list_id={@shopping_list.id} />
 

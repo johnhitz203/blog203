@@ -14,7 +14,7 @@ defmodule Blog.Lists.ShoppingListItems do
   @doc false
   def changeset(shopping_list_items, attrs) do
     shopping_list_items
-    |> cast(attrs, [:item, :shopping_list_id])
+    |> cast(attrs, [:item, :quantity, :unit, :shopping_list_id])
     |> validate_required([:item, :shopping_list_id])
   end
 end

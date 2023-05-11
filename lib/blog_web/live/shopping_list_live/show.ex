@@ -18,9 +18,6 @@ defmodule BlogWeb.ShoppingListLive.Show do
   end
 
   def handle_info({"list_item_created", id}, socket) do
-    IO.puts("WTF? Over!")
-    IO.inspect(id, label: "id")
-
     {
       :noreply,
       socket
