@@ -29,6 +29,8 @@ defmodule BlogWeb.RecipeLive.Show do
 
   @impl true
   def handle_event("add_to_list", attrs, socket) do
+    BlogWeb.Endpoint.broadcast("shopping_list_items", "add_to_list", %{})
+
     attrs =
       Map.put(attrs, "shopping_list_id", socket.assigns.current_user.active_shopping_list_id)
 

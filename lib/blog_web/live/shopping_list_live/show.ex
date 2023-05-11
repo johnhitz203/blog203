@@ -6,6 +6,11 @@ defmodule BlogWeb.ShoppingListLive.Show do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      # id of shopping list to optimize
+      BlogWeb.Endpoint.subscribe("shopping_list_items")
+    end
+
     {:ok, socket}
   end
 
@@ -15,6 +20,15 @@ defmodule BlogWeb.ShoppingListLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:shopping_list, Lists.get_shopping_list!(id))}
+  end
+
+  @impl true
+  def handle_info(%{topic: "shopping_list_items", payload: _payload}, socket) do
+    {
+      :noreply,
+      socket
+      |> assign(:shopping_list, Lists.get_shopping_list!(socket.assigns.shopping_list.id))
+    }
   end
 
   def handle_info({"list_item_created", id}, socket) do
