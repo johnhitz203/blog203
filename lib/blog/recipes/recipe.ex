@@ -4,6 +4,7 @@ defmodule Blog.Recipes.Recipe do
 
   schema "recipes" do
     field :name, :string
+    # field :active, :date
     has_many :recipe_items, Blog.Recipes.RecipeItem
 
     timestamps()

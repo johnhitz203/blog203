@@ -54,7 +54,7 @@ defmodule BlogWeb.RecipeLive.Index do
   def handle_info({"recipe_item_created", id}, socket) do
     socket =
       socket
-      |> assign(:recipes, list_recipes())
+      # |> assign(:recipes, list_recipes())
       |> assign(:recipe, Recipes.get_recipe!(id))
 
     {:noreply, socket}

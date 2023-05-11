@@ -1,4 +1,4 @@
-<div>
+<div class="mx-20 my-20">
   <h2><%= @title %></h2>
 
   <.form
@@ -8,13 +8,15 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
+
     <%= label f, :list_name %>
     <%= text_input f, :list_name %>
     <%= error_tag f, :list_name %>
-  
+
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
   </.form>
+
+  <.live_component module={ItemForm} id="item" shopping_list_id={@shopping_list.id} />
 </div>

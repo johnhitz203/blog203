@@ -2,6 +2,7 @@ defmodule BlogWeb.ShoppingListLive.Show do
   use BlogWeb, :live_view
 
   alias Blog.Lists
+  alias BlogWeb.ShoppingListLive.ItemForm
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,6 +15,18 @@ defmodule BlogWeb.ShoppingListLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:shopping_list, Lists.get_shopping_list!(id))}
+  end
+
+  def handle_info({"list_item_created", id}, socket) do
+    IO.puts("WTF? Over!")
+    IO.inspect(id, label: "id")
+
+    {
+      :noreply,
+      socket
+      # |> assign(:shopping_lists, list_shopping_lists())
+      |> assign(:shopping_list, Lists.get_shopping_list!(id))
+    }
   end
 
   defp page_title(:show), do: "Show Shopping list"

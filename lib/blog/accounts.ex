@@ -129,6 +129,17 @@ defmodule Blog.Accounts do
   end
 
   @doc """
+  Update active shopping list for user
+
+
+  """
+  def update_active_list(user, list_id) do
+    user
+    |> User.active_list_changeset(%{active_shopping_list_id: list_id})
+    |> Repo.update()
+  end
+
+  @doc """
   Updates the user email using the given token.
 
   If the token matches, the user email is updated and the token is deleted.

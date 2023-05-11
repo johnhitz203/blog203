@@ -7,6 +7,7 @@ defmodule Blog.Accounts.User do
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+    field :active_shopping_list_id, :id
 
     timestamps()
   end
@@ -82,6 +83,11 @@ defmodule Blog.Accounts.User do
       %{changes: %{email: _}} = changeset -> changeset
       %{} = changeset -> add_error(changeset, :email, "did not change")
     end
+  end
+
+  def active_list_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:active_shopping_list_id])
   end
 
   @doc """
