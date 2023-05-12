@@ -81,7 +81,7 @@ defmodule BlogWeb.ShoppingListLive.ItemForm do
     params =
       Map.put(params["shopping_list_items"], "shopping_list_id", socket.assigns.shopping_list_id)
 
-    IO.inspect(params, label: "item_form line 81")
+    IO.inspect(socket.assigns.shopping_list_id, label: "item_form line 81")
 
     case Lists.create_shopping_list_items(params) do
       {:ok, shopping_list_item} ->
@@ -94,6 +94,7 @@ defmodule BlogWeb.ShoppingListLive.ItemForm do
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset, label: "Darn it!")
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end

@@ -18,10 +18,4 @@ defmodule Blog.Lists.ShoppingList do
     |> cast(attrs, [:list_name])
     |> validate_required([:list_name])
   end
-
-  def changeset_with_items(shopping_list, attrs) do
-    shopping_list
-    |> cast(attrs, [])
-    |> cast_assoc(:shopping_list_items, with: ShoppingList.changeset())
-  end
 end
