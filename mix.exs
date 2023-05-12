@@ -54,7 +54,8 @@ defmodule Blog.MixProject do
       {:makeup_elixir, ">= 0.0.0"},
       {:makeup_erlang, ">= 0.0.0"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:tailwind_formatter, "~> 0.3.4", only: :dev, runtime: false}
+      {:tailwind_formatter, "~> 0.3.4", only: :dev, runtime: false},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end
 

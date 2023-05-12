@@ -6,7 +6,10 @@ defmodule BlogWeb.UserRegistrationController do
   alias BlogWeb.UserAuth
 
   def new(conn, _params) do
-    changeset = Accounts.change_user_registration(%User{})
+    changeset =
+      Accounts.change_user_registration(%User{})
+      |> IO.inspect(label: "user controller line 10")
+
     render(conn, "new.html", changeset: changeset)
   end
 

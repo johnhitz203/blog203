@@ -5,8 +5,16 @@ defmodule BlogWeb.ShoppingListLive.Index do
   alias Blog.Lists.ShoppingList
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :shopping_lists, list_shopping_lists())}
+  def mount(_params, session, socket) do
+    user = Blog.Accounts.get_user_by_session_token(session["user_token"])
+
+    {
+      :ok,
+      socket
+      |> assign(:shopping_lists, list_shopping_lists())
+      |> assign(:current_user, user)
+      |> assign(:active_list_id, user.active_shopping_list_id)
+    }
   end
 
   @impl true
@@ -23,7 +31,7 @@ defmodule BlogWeb.ShoppingListLive.Index do
   defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Shopping list")
-    |> assign(:shopping_list, %ShoppingList{})
+    |> assign(:shopping_list, %ShoppingList{shopping_list_items: []})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -33,11 +41,33 @@ defmodule BlogWeb.ShoppingListLive.Index do
   end
 
   @impl true
+  def handle_event("make_active", %{"list_id" => list_id} = params, socket) do
+    {:ok, _user} = Blog.Accounts.update_active_list(socket.assigns.current_user, list_id)
+    socket = assign(socket, :active_list_id, String.to_integer(list_id))
+
+    {
+      :noreply,
+      socket
+      # |> assign(:shopping_lists, list_shopping_lists())
+    }
+  end
+
+  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     shopping_list = Lists.get_shopping_list!(id)
     {:ok, _} = Lists.delete_shopping_list(shopping_list)
 
     {:noreply, assign(socket, :shopping_lists, list_shopping_lists())}
+  end
+
+  @impl true
+  def handle_info({"list_item_created", id}, socket) do
+    {
+      :noreply,
+      socket
+      # |> assign(:shopping_lists, list_shopping_lists())
+      |> assign(:shopping_list, Lists.get_shopping_list!(id))
+    }
   end
 
   defp list_shopping_lists do

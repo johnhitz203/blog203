@@ -2,6 +2,7 @@ defmodule BlogWeb.ShoppingListLive.FormComponent do
   use BlogWeb, :live_component
 
   alias Blog.Lists
+  alias BlogWeb.ShoppingListLive.ItemForm
 
   @impl true
   def update(%{shopping_list: shopping_list} = assigns, socket) do
@@ -42,11 +43,13 @@ defmodule BlogWeb.ShoppingListLive.FormComponent do
 
   defp save_shopping_list(socket, :new, shopping_list_params) do
     case Lists.create_shopping_list(shopping_list_params) do
-      {:ok, _shopping_list} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Shopping list created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+      {:ok, shopping_list} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Shopping list created successfully")
+          |> push_redirect(to: "/shopping_lists/#{shopping_list.id}")
+        }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

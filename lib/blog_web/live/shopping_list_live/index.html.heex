@@ -31,7 +31,14 @@
             <span><%= live_redirect "Show", to: Routes.shopping_list_show_path(@socket, :show, shopping_list) %></span>
             <span><%= live_patch "Edit", to: Routes.shopping_list_index_path(@socket, :edit, shopping_list) %></span>
             <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: shopping_list.id, data: [confirm: "Are you sure?"] %></span>
+
+            <%= if shopping_list.id == @active_list_id do %>
+              <span><h2>Active</h2></span>
+            <%= else %>
+              <span><button class="bg-blue-400" phx-click="make_active" phx-value-list_id={shopping_list.id}>Make List Active</button></span>
+            <% end %>
           </td>
+
         </tr>
       <% end %>
     </tbody>

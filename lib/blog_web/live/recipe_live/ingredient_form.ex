@@ -9,8 +9,8 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
       socket
       |> assign(assigns)
       |> assign_changeset()
-      |> assign(search_results: [])
-      |> assign(search: "")
+      # |> assign(search_results: [])
+      # |> assign(search: "")
     }
   end
 
@@ -33,9 +33,9 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         id="ingredient-form"
         phx-target={@myself}
         :phx-change="validate"
+        :phx-submit="save"
 
         phx-submit="add_ingredient">
-        <!--phx-submit="save"-->
 
 
         <div class="flex flex-col m-1">
@@ -59,7 +59,6 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
         <%= if assigns[:item] do %>
           <div class="flex items-center">
           <%= submit "update ingredient", phx_disable_with: "Saving..." %>
-          <button class="h-12 w-12 ml-5 rounded-full bg-gray-300 hover:bg-gray-500 hover:text-gray-200 text-5xl align-middle" phx-click="add_to_list">+</button>
           </div>
         <% else %>
           <%= submit "add ingredient", phx_disable_with: "Saving..." %>
@@ -86,50 +85,16 @@ defmodule BlogWeb.RecipeLive.IngredientForm do
 
     case Recipes.create_recipe_item(params) do
       {:ok, recipe_item} ->
-        send(self(), {"message", recipe_item.recipe_id})
+        send(self(), {"recipe_item_created", recipe_item.recipe_id})
 
         {
           :noreply,
           socket
           |> put_flash(:info, "#{recipe_item.ingredient} successfully inserted!")
-          |> push_redirect(to: "/recipes/#{recipe_item.recipe_id}/edit")
-
-          # |> push_patch(to: "/recipes/#{recipe_item.recipe_id}/edit")
         }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
-
-  # %{"_target" => ["recipe_item", "ingredient"], "recipe_item" => %{"ingredient" => "d", "quantity" => "", "recipe_i" => "", "units" => ""}}
-
-  # def handle_event("validate", %{"recipe" => } , socket) do
-  #   IO.puts("validate")
-  #   {:noreply, socket}
-  # end
-
-  # def handle_event("validate", %{"recipe_item" => recipe_params}, socket) do
-  #   changeset =
-  #     socket.assigns.recipe_item
-  #     |> Recipes.change_recipe(recipe_params)
-  #     |> Map.put(:action, :validate)
-
-  #   {:noreply, assign(socket, :changeset, changeset)}
-  # end
-
-  ##############################
-  # Suggestion from justin_yxx #
-  ##############################
-  # <.form let={f} phx-submit="edit">
-  #   <%= for {i, f} <- Enum.with_index(@recipe.recipe_items), do: %>
-
-  #     <.input f, :name, placeholder: "Name"
-  #     <.input f, :quantity, placeholder: "Quantity"
-  #     <.input f, :unit, placeholder: "Unit"
-
-  #   <% end %>
-  # </.form>
-
-  # <.form let{f} for={@ingredient_changeset} phx-submit="add"/>
 end

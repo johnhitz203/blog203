@@ -1,10 +1,29 @@
 defmodule Blog.AccountsTest do
   use Blog.DataCase
 
+  alias Blog.AccountsFixtures
   alias Blog.Accounts
 
   import Blog.AccountsFixtures
   alias Blog.Accounts.{User, UserToken}
+  alias Blog.ListsFixtures
+
+  describe "activate shopping_list/2" do
+    test "Activate shopping list with valid data" do
+      user = AccountsFixtures.user_fixture()
+
+      shopping_list1 =
+        ListsFixtures.shopping_list_fixture()
+        |> IO.inspect(label: "shopping_list1")
+
+      shopping_list2 = ListsFixtures.shopping_list_fixture()
+
+      assert {:ok, list_id} = Blog.Accounts.update_active_list(user, shopping_list1.id)
+
+      # assert {:ok, list} = Blog.Lists.make_list_active(shopping_list1, user)
+      # assert Blog.Lists.get_active_list(user.id) == shopping_list1
+    end
+  end
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do

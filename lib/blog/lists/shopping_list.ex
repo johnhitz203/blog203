@@ -2,9 +2,12 @@ defmodule Blog.Lists.ShoppingList do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Blog.Lists.ShoppingList
+
   schema "shopping_lists" do
     field :list_name, :string
-    field :product_id, :id
+    # field :active, :utc_datetime
+    has_many :shopping_list_items, Blog.Lists.ShoppingListItems
 
     timestamps()
   end
